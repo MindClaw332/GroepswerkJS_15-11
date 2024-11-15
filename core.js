@@ -6,7 +6,5 @@ function toggleDarkMode(){
         theme.nodeValue = 'light'
     } else {
         theme.nodeValue = 'dark';
-        
     }
-    
 }
