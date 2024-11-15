@@ -7,44 +7,50 @@
     <title>Gift Organizer</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.red.min.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
     <main class="container">
         <nav>
             <h1>Gift Management System</h1>
-            <button class="outline" onclick="toggleDarkMode()">toggle light</button>
+            <a href="#" id="lightbulbtoggle"><i class="fa-solid fa-lightbulb" id="lightbulb"></i></a>
         </nav>
-        <div class="flexer">
-            <div class="center">
+        <section>
+            <div class="grid">
                 <input type="text" placeholder="name">
                 <input type="text" placeholder="nicelist or not">
                 <input type="text" placeholder="location">
             </div>
-            <div class="center">
-                <div class="center">
-                    <div><button class="">add child</button></div>
-                    <div><button class="outline">clear cache</button></div>
-                </div>
-
+            <div class="grid">
+                <button class="">add child</button>
+                <button class="outline">clear cache</button>
             </div>
-        </div>
-        <div class=" center">
-            <select class= 'smallbutton' name="select" aria-label="Select" required>
-                <option selected disabled value="">Select</option>
-                <option>Solid</option>
-                <option>Liquid</option>
-                <option>Gas</option>
-                <option>Plasma</option>false
-            </select>
-            <button>add gift</button>
-        </div>
-        <div class="background">
-            <h2>list of children</h2>
-            <h3>kiddo goodo gifty wifty trhifyt</h3>
+        </section>
+        <div class="grid margin-top">
+            <div>
+                <h2>list of children</h2>
+                <h3>kiddo goodo gifty wifty trhifyt</h3>
+            </div>
 
+            <div>
+                <fieldset role = "group">
+                    <select name="select" aria-label="Select" required>
+                        <option selected disabled value="">Select</option>
+                        <option>Solid</option>
+                        <option>Liquid</option>
+                        <option>Gas</option>
+                        <option>Plasma</option>false
+                    </select>
+                    <button>add gift</button>
+                </fieldset>
+                
+            </div>
+            
         </div>
-        </main>
+    </main>
     <footer class="center">copyright santas workshop</footer>
     <script src="core.js"></script>
 </body>
