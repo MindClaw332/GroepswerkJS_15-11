@@ -32,7 +32,14 @@ fetch(url)
         `
     });
 })
+.catch(error => console.log(error, ' error has occured'))
 }
+
+// function AddGiftToKid(kidid, gift){
+//     fetch(`${url}/${kidid}`)
+//     .then(res => res.json)
+
+// }
 DrawList();
 const click = document.getElementById('lightbulbtoggle');
 click.addEventListener('mousedown', toggleDarkMode)
