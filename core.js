@@ -12,5 +12,7 @@ function toggleDarkMode(){
     }
 }
 
+
+
 const click = document.getElementById('lightbulbtoggle');
 click.addEventListener('mousedown', toggleDarkMode)
