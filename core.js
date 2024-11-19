@@ -1,13 +1,14 @@
 const url = "http://localhost:3000/kids"
-const childlist = document.getElementById("childlist")
+const childlist = document.getElementById("kidlist")
 const output = document.getElementById("output");
 const savedoutput = document.getElementById("savedoutput");
-function toggleDarkMode(){
+
+function toggleDarkMode() {
     let darkTag = document.getElementById("theme");
     const lightbulb = document.getElementById("lightbulb");
     const theme = darkTag.attributes[1];
     console.log(darkTag.attributes[1]);
-    if(darkTag.attributes[1].nodeValue === "dark"){
+    if (darkTag.attributes[1].nodeValue === "dark") {
         theme.nodeValue = 'light'
         // lightbulb.style.color = 'gray';
     } else {
@@ -16,24 +17,31 @@ function toggleDarkMode(){
     }
 }
 
-function DrawList(){
-    childlist.innerHTML = '';
-fetch(url)
-.then(res => res.json())
-.then(data => {
-    data.forEach(element => {
-        childlist.innerHTML += `
+//drawlist debugged
+//add kid to list api
+//
+
+
+function DrawList() {
+    console.log('drawing')
+    // childlist.innerHTML = '';
+    fetch(url)
+        .then(res => res.json())
+        .then(data => {
+            data.forEach(element => {
+                childlist.innerHTML += `
          <div>
-            <h3>${element.name} on nicelist: ${element.nicelist}</h3>
-            <h3>${element.gifts}</h3>
-        </div>
-        <div id="default-button-group">
-            <button>Add book</button> <button>Add clothes</button> <button>Add game</button> <button>edit</button>
-        </div>
+         <div role="group">
+                <h3>${element.name} and ${element.nicelist} gifts: ${element.gifts}</h3>
+                <div>
+                    <button id="edit">edit</button>
+                </div>
+
+            </div>
         `
-    });
-})
-.catch(error => console.log(error, ' error has occured'))
+            });
+        })
+        .catch(error => console.log(error, ' error has occured'))
 }
 
 // function AddGiftToKid(kidid, gift){
@@ -44,32 +52,32 @@ fetch(url)
 
 //load from db
 function loadSavedPosts() {
-try {
-    const savedposts = JSON.parse(localStorage.getItem('kids') || '[]');
-    savedoutput.innerHTML = '';
+    try {
+        const savedposts = JSON.parse(localStorage.getItem('kids') || '[]');
+        savedoutput.innerHTML = '';
 
-    if (savedposts.length === 0) {
-        const noPostsMessage = document.createElement('div');
-        noPostsMessage.className = 'no-posts-message';
-        noPostsMessage.textContent = 'No posts found.';
-        childlist.appendChild(noPostsMessage);
-        return;
-    }
-// sort by timestamp
-    savedposts.sort((a, b) => b.timestamp - a.timestamp);
-    savedposts.forEach(post => {
-        const postdiv = document.createElement('div');
-        postdiv.className = 'kid';
-        postdiv.innerHTML = `
+        if (savedposts.length === 0) {
+            const noPostsMessage = document.createElement('div');
+            noPostsMessage.className = 'no-posts-message';
+            noPostsMessage.textContent = 'No posts found.';
+            childlist.appendChild(noPostsMessage);
+            return;
+        }
+        // sort by timestamp
+        savedposts.sort((a, b) => b.timestamp - a.timestamp);
+        savedposts.forEach(post => {
+            const postdiv = document.createElement('div');
+            postdiv.className = 'kid';
+            postdiv.innerHTML = `
             <h3>${post.name} on nicelist: ${post.nicelist}</h3>
             <h3>${post.gifts}</h3>
         `;
-        childlist.appendChild(postdiv);
-    });
-} catch (error) {
-    console.error('Error loading saved posts:', error);
-    localStorage.setItem('savedposts', '[]');
-}
+            childlist.appendChild(postdiv);
+        });
+    } catch (error) {
+        console.error('Error loading saved posts:', error);
+        localStorage.setItem('savedposts', '[]');
+    }
 }
 
 //save to db
@@ -84,12 +92,12 @@ function savetolocal(kidid, gift, timestamp, location) {
 
         const savedposts = JSON.parse(localStorage.getItem('kids') || '[]');
 
-    if (!savedposts.some(p => p.kidid === kid.id)) {
-        savedposts.push(post);
-        childlist.setItem('savedposts', JSON.stringify(savedposts));
-    } else {
-        alert('You have already saved this post.');
-    }
+        if (!savedposts.some(p => p.kidid === kid.id)) {
+            savedposts.push(post);
+            childlist.setItem('savedposts', JSON.stringify(savedposts));
+        } else {
+            alert('You have already saved this post.');
+        }
     } catch (error) {
         console.error('Error saving post:', error);
     }
@@ -103,26 +111,26 @@ function removepost(kidid) {
         const updatedPosts = savedposts.filter(post => post.kidid !== postIdString);
         childlist.setItem('savedposts', JSON.stringify(updatedPosts));
         loadSavedPosts();
-    } catch (error) {    
+    } catch (error) {
         console.error('Error removing post:', error);
     }
-}  
+}
 
-function fetchdata(){
+function fetchdata() {
     fetch(url)
-    .then(res => res.json())
-    .then(data => {
-        if (data.length === 0) {
-            const noPostsMessage = document.createElement('div');
-            noPostsMessage.className = 'no-posts-message';
-            noPostsMessage.textContent = 'No posts found. add a child';
-            output.appendChild(noPostsMessage);
-            return;
-        }
-        // sort by timestamp
-        const sortedPosts = data.sort((a, b) => b.timestamp - a.timestamp);
-        sortedPosts.forEach(post => {
-            output.innerHTML += `
+        .then(res => res.json())
+        .then(data => {
+            if (data.length === 0) {
+                const noPostsMessage = document.createElement('div');
+                noPostsMessage.className = 'no-posts-message';
+                noPostsMessage.textContent = 'No posts found. add a child';
+                output.appendChild(noPostsMessage);
+                return;
+            }
+            // sort by timestamp
+            const sortedPosts = data.sort((a, b) => b.timestamp - a.timestamp);
+            sortedPosts.forEach(post => {
+                childlist.innerHTML += `
             <div class="post-item" id="${post.id}">
             <span class= "post-content">${post.name} (${post.nicelist}) (${post.location})(${post.timestamp})</span>
             <div class="edit" style="display: none;">
@@ -139,38 +147,44 @@ function fetchdata(){
             </div>
             </div>
             `;
-        });
-    })
-    .catch(error => console.log(error, ' error fetching posts:', e));
+            });
+        })
+        .catch(error => console.log(error, ' error fetching posts:', e));
 }
 
 //add new kid
-document.getElementById('addkid').addEventListener('click', () => {
-    const newPost ={
+document.getElementById('addchild').addEventListener('click', () => {
+    console.log('click');
+    
+    const newPost = {
         name: document.getElementById('name').value,
         nicelist: document.getElementById('nicelist').value,
         location: document.getElementById('location').value,
-        gifts: document.getElementById('gifts').value,
+        gifts: '[]',
         timestamp: Date.now()
     };
-    fetch(childlist, {
+    console.log('post created')
+    fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(newPost)
     })
-    .then(res => res.json())
-    .then(() => {
-        fetchdata();
-        document.getElementById('name').value = '';
-        document.getElementById('nicelist').value = '';
-        document.getElementById('location').value = '';
-        document.getElementById('gifts').value = '';
-    })
-    .catch(error => console.log(error, ' error adding kid'));
+        .then(res => res.json())
+        .then(() => {
+            console.log('we got this far at least')
+            fetchdata();
+            document.getElementById('name').value = '';
+            document.getElementById('nicelist').value = '';
+            document.getElementById('location').value = '';
+            DrawList();
+        })
+        .catch(error => console.log(error, ' error adding kid'));
+        
 });
 
-DrawList();
+fetchdata();
+loadSavedPosts();
 const click = document.getElementById('lightbulbtoggle');
 click.addEventListener('mousedown', toggleDarkMode)
