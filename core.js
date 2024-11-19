@@ -45,7 +45,7 @@ fetch(url)
 //load from db
 function loadSavedPosts() {
 try {
-    const savedposts = JSON.parse(localStorage.getItem('kids') || '[]');
+    const savedposts = JSON.parse(localStorage.getItem('addchild') || '[]');
     savedoutput.innerHTML = '';
 
     if (savedposts.length === 0) {
@@ -82,7 +82,7 @@ function savetolocal(kidid, gift, timestamp, location) {
             timestamp: timestamp
         };
 
-        const savedposts = JSON.parse(localStorage.getItem('kids') || '[]');
+        const savedposts = JSON.parse(localStorage.getItem('addchild') || '[]');
 
     if (!savedposts.some(p => p.kidid === kid.id)) {
         savedposts.push(post);
@@ -98,7 +98,7 @@ function savetolocal(kidid, gift, timestamp, location) {
 // remove post from db
 function removepost(kidid) {
     try {
-        const savedposts = JSON.parse(localStorage.getItem('kids') || '[]');
+        const savedposts = JSON.parse(localStorage.getItem('addchild') || '[]');
         const postIdString = string(kidid);
         const updatedPosts = savedposts.filter(post => post.kidid !== postIdString);
         childlist.setItem('savedposts', JSON.stringify(updatedPosts));
@@ -145,7 +145,8 @@ function fetchdata(){
 }
 
 //add new kid
-document.getElementById('addkid').addEventListener('click', () => {
+document.getElementById('addchild').addEventListener('click', () => {
+console.log('clicked');   
     const newPost ={
         name: document.getElementById('name').value,
         nicelist: document.getElementById('nicelist').value,
@@ -171,6 +172,34 @@ document.getElementById('addkid').addEventListener('click', () => {
     .catch(error => console.log(error, ' error adding kid'));
 });
 
+// clear localstorage
+document.getElementById('clearcache').addEventListener('click', () => {
+    if (confirm('Are you sure you want to clear the cache?')) {
+        localStorage.remoaveItem('savedposts');
+        loadSavedPosts();
+    }
+});
+
+function editPost(id) {
+    const postdiv = document.getElementById(`post-${id}`);
+    postdiv.querySelector('.post-content').style.display = 'none';
+    postdiv.querySelector('.edit-form').style.display = 'block';
+    postdiv.querySelector('.button-group').style.display = 'none';
+}
+
+function cancelEdit(id) {
+    const postdiv = document.getElementById(`post-${id}`);
+    postdiv.querySelector('.post-content').style.display = 'block';
+    postdiv.querySelector('.edit-form').style.display = 'none';
+    postdiv.querySelector('.button-group').style.display = 'block';
+}
+
+
+
 DrawList();
 const click = document.getElementById('lightbulbtoggle');
-click.addEventListener('mousedown', toggleDarkMode)
+click.addEventListener('mousedown', toggleDarkMode);
+
+// initial load
+fetchdata();
+loadSavedPosts();
