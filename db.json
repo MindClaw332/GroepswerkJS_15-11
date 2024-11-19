@@ -1,5 +1,5 @@
 {
     "kids": [
-      { "id": 1, "name": "json-server", "gifts": "typicode" }
+      { "id": 1, "name": "json-server", "gifts": "typicode", "nicelist": true }
     ]
   }
