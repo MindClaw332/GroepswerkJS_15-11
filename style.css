@@ -1,6 +1,4 @@
-* {
-    margin-top: 2vh;
-}
+
 
 .center{
     display: flex;
@@ -10,7 +8,21 @@
     margin-top: 10vh;
 }
 
+.center-horizontal {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+}
+
 .margin-top{
     margin-top: 15vh;
 }
 
+.debug-diss {
+    display: none;
+}
+
+.input-width {
+    size: 20vw;
+}
