@@ -1,0 +1,5 @@
+{
+    "kids": [
+      { "id": 1, "name": "json-server", "gifts": "typicode" }
+    ]
+  }
