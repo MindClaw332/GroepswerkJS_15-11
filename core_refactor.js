@@ -5,6 +5,7 @@ const url = "http://localhost:3000/kids";
 const output = document.getElementById('kidlist');
 const addChildButton = document.getElementById('addchild')
 
+//draws the list of items it finds in local storage
 function DrawList() {
     output.innerHTML = '';
     const localData = JSON.parse(localStorage.getItem('storedPosts'));
@@ -35,6 +36,7 @@ function DrawList() {
     })
 }
 
+// fetches data from api and stores it in local storage
 function FetchDataAndSave() {
     console.log(JSON.parse(localStorage.getItem('savedPosts')) || [], 'voor fetch')
     fetch(url)
@@ -67,6 +69,7 @@ function FetchDataAndSave() {
         .catch(error => console.log(error, 'error'));
 }
 
+//allows you to open up the edit ui
 function editPost(id) {
     // Show edit form and hide content for the selected post
     const postDiv = document.getElementById(`post-${id}`);
@@ -74,6 +77,7 @@ function editPost(id) {
     postDiv.querySelector('.edit-form').style.display = 'grid';
 }
 
+//closes the edit ui
 function cancelEdit(id) {
     // Hide edit form and show content
     const postDiv = document.getElementById(`post-${id}`);
@@ -82,14 +86,16 @@ function cancelEdit(id) {
 }
 
 
-
+// adds a post to the api which will then call fetch and save so it can update the local storage too
 function AddPost() {
+    //create a new post
     const newPost = {
         kidname: document.getElementById('nameinput').value || 'name unknown',
         nicelist: document.getElementById('nicelistinput').value,
         gifts: [],
         location: document.getElementById('locationinput').value || 'unknown'
     }
+    // add it to the api
     fetch(url, {
         method: 'POST',
         headers: {
@@ -107,6 +113,7 @@ function AddPost() {
 
 }
 
+//deletes a selected post
 function deletePost(id) {
     console.log('clicked delete')
     fetch(`${url}/${id}`, {
@@ -116,6 +123,7 @@ function deletePost(id) {
     .catch(e => console.error('Error deleting post:', e));
 }
 
+//saves the edits made to a post
 function savePost(id) {
     // Get the edited values
     const postDiv = document.getElementById(`post-${id}`);
@@ -127,7 +135,7 @@ function savePost(id) {
         location: newLocation
     };
 
-    // Send PUT request to update the post
+    // Send patch request to update only the necessary parts of the post
     fetch(`${url}/${id}`, {
         method: 'PATCH',
         headers: {
@@ -143,6 +151,7 @@ function savePost(id) {
     .catch(e => console.error('Error updating post:', e));
 }
 
+//clears the local storage and empties out the api database
 document.getElementById('clearcache').addEventListener('click', () => {
     if (confirm('Are you sure you want to clear all saved posts?')) {
         localStorage.clear;
@@ -159,13 +168,14 @@ document.getElementById('clearcache').addEventListener('click', () => {
     }
 });
 
+//adds a gift to a specified kid
 function AddGift(kidid, gift){
-
-    fetch(`${url}/${kidid}`)
+    fetch(`${url}/${kidid}`) //get the object
     .then(res => res.json())
     .then(data => {
+        //create a list of already added gifts
         const giftList = data.gifts;
-        if(!giftList.includes(gift)){
+        if(!giftList.includes(gift)){ //check if it already has this gift in it if it doesnt add it
             giftList.push(gift)
         } else {
             console.log('this list already contains a ',gift)
@@ -173,7 +183,7 @@ function AddGift(kidid, gift){
         const giftpatch = {
             gifts: giftList
         }
-        fetch(`${url}/${kidid}`, {
+        fetch(`${url}/${kidid}`, { // patch the gifts in
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
@@ -185,6 +195,6 @@ function AddGift(kidid, gift){
     .catch(error => console.log(error))
 }
 
-localStorage.clear();
+// localStorage.clear();
 addChildButton.addEventListener('click', AddPost)
 FetchDataAndSave();
