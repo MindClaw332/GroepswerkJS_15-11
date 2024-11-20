@@ -5,6 +5,10 @@ const url = "http://localhost:3000/kids";
 const output = document.getElementById('kidlist');
 const addChildButton = document.getElementById('addchild')
 
+// for practice i decided to change up the seen logic somewhat
+// i decided to mainly use the api and keep the localstorage as a backup to load the data from
+
+
 //draws the list of items it finds in local storage
 function DrawList() {
     output.innerHTML = '';
@@ -88,6 +92,7 @@ function cancelEdit(id) {
 
 // adds a post to the api which will then call fetch and save so it can update the local storage too
 function AddPost() {
+    try{
     //create a new post
     const newPost = {
         kidname: document.getElementById('nameinput').value || 'name unknown',
@@ -109,18 +114,27 @@ function AddPost() {
         document.getElementById('nameinput').value = '';
         document.getElementById('nicelistinput').value = '';
         document.getElementById('locationinput').value = '';
-    })
+    })}
+    catch(error) {
+        console.error('error occured while adding post', error)
+    }
 
 }
 
 //deletes a selected post
 function deletePost(id) {
-    console.log('clicked delete')
-    fetch(`${url}/${id}`, {
-        method: 'DELETE'
-    })
-    .then(() => FetchDataAndSave())
-    .catch(e => console.error('Error deleting post:', e));
+    try{
+        console.log('clicked delete')
+        fetch(`${url}/${id}`, {
+            method: 'DELETE'
+        })
+        .then(() => FetchDataAndSave())
+        .catch(e => console.error('Error deleting post:', e));
+    }
+    catch(error) {
+        console.error('error occured while deleting post')
+    }
+    
 }
 
 //saves the edits made to a post
