@@ -1,18 +1,3 @@
 {
-  "kids": [
-    {
-      "id": 1,
-      "name": "kiddo",
-      "gifts": "[]",
-      "nicelist": true
-    },
-    {
-      "name": "aze",
-      "nicelist": "true",
-      "location": "genk",
-      "gifts": "[]",
-      "timestamp": 1732040884542,
-      "id": 2
-    }
-  ]
+  "kids": []
 }
