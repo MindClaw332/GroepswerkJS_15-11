@@ -1,16 +1,3 @@
 {
-  "kids": [
-    {
-      "id": 1,
-      "name": "kiddo",
-      "gifts": "[]",
-      "nicelist": "true"
-    },
-    {
-      "id": 2,
-      "name": "andere kiddo",
-      "gifts": "[]",
-      "nicelist": "true"
-    }
-  ]
+  "kids": []
 }
