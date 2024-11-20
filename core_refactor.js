@@ -25,9 +25,9 @@ function DrawList() {
                     <button type="button" onclick="savePost('${element.kidid}', '${element.kidname}', '${element.nicelist}', '${element.gifts}',  '${element.location}')">save</button>
                     <button type="button" onclick="cancelEdit(${element.kidid})">cancel</button>
                     <button type="button" class="outline" onclick="deletePost(${element.kidid})">delete</button>
-                    <button type="button">add book</button>
-                    <button type="button">add toy</button>
-                    <button type="button">add game</button>
+                    <button type="button" onclick="AddGift('${element.kidid}','book')">add book</button>
+                    <button type="button" onclick="AddGift('${element.kidid}','toy')">add toy</button>
+                    <button type="button" onclick="AddGift('${element.kidid}','game')">add game</button>
                 </div>
             </div>
             </div>
@@ -81,12 +81,13 @@ function cancelEdit(id) {
     postDiv.querySelector('.edit-form').style.display = 'none';
 }
 
+
+
 function AddPost() {
-    console.log('adding post')
     const newPost = {
         kidname: document.getElementById('nameinput').value || 'name unknown',
-        nicelist: document.getElementById('nicelistinput').value || 'true',
-        gifts: '[]',
+        nicelist: document.getElementById('nicelistinput').value,
+        gifts: [],
         location: document.getElementById('locationinput').value || 'unknown'
     }
     fetch(url, {
@@ -121,7 +122,7 @@ function savePost(id) {
     const newName = postDiv.querySelector('.edit-name').value;
     const newLocation = postDiv.querySelector('.edit-location').value;
     // Create updated post object
-    const updatedPost = {
+    const Patch = {
         kidname: newName,
         location: newLocation
     };
@@ -132,7 +133,7 @@ function savePost(id) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(updatedPost)
+        body: JSON.stringify(Patch)
     })
     .then(res => res.json())
     .then(() => {
@@ -140,6 +141,48 @@ function savePost(id) {
         FetchDataAndSave
     })
     .catch(e => console.error('Error updating post:', e));
+}
+
+document.getElementById('clearcache').addEventListener('click', () => {
+    if (confirm('Are you sure you want to clear all saved posts?')) {
+        localStorage.clear;
+        fetch(url)
+        .then(res => res.json())
+        .then(data => data.forEach(element =>{
+            console.log('deleted kid#', element.id)
+            fetch(`${url}/${element.id}`, {
+                method: 'DELETE'
+            })
+        }))
+        .then(()=> FetchDataAndSave())
+        .catch(error => console.log(error))
+    }
+});
+
+function AddGift(kidid, gift){
+
+    fetch(`${url}/${kidid}`)
+    .then(res => res.json())
+    .then(data => {
+        const giftList = data.gifts;
+        if(!giftList.includes(gift)){
+            giftList.push(gift)
+        } else {
+            console.log('this list already contains a ',gift)
+        }
+        const giftpatch = {
+            gifts: giftList
+        }
+        fetch(`${url}/${kidid}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(giftpatch)
+        })
+    })
+    .then(() => FetchDataAndSave())
+    .catch(error => console.log(error))
 }
 
 localStorage.clear();

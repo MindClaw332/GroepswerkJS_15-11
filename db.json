@@ -1,25 +1,3 @@
 {
-  "kids": [
-    {
-      "kidname": "edited",
-      "nicelist": "aze",
-      "gifts": "[]",
-      "location": "edited",
-      "id": 1
-    },
-    {
-      "kidname": "aze",
-      "nicelist": "aze",
-      "gifts": "[]",
-      "location": "aze",
-      "id": 2
-    },
-    {
-      "kidname": "azeaze",
-      "nicelist": "azeaze",
-      "gifts": "[]",
-      "location": "azeaze",
-      "id": 3
-    }
-  ]
+  "kids": []
 }
