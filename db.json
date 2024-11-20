@@ -2,137 +2,17 @@
   "kids": [
     {
       "id": 1,
-      "name": "json-server",
-      "gifts": "typicode",
-      "nicelist": true
-    },
-    {
-      "name": "hadie hoo",
-      "nicelist": "true",
-      "location": "genk",
+      "name": "kiddo",
       "gifts": "[]",
-      "timestamp": 1732025168720,
-      "id": 2
+      "nicelist": true
     },
     {
       "name": "aze",
       "nicelist": "true",
       "location": "genk",
       "gifts": "[]",
-      "timestamp": 1732025671813,
-      "id": 3
-    },
-    {
-      "name": "",
-      "nicelist": "",
-      "location": "",
-      "gifts": "[]",
-      "timestamp": 1732025835123,
-      "id": 4
-    },
-    {
-      "name": "",
-      "nicelist": "",
-      "location": "",
-      "gifts": "[]",
-      "timestamp": 1732025966266,
-      "id": 5
-    },
-    {
-      "name": "",
-      "nicelist": "",
-      "location": "",
-      "gifts": "[]",
-      "timestamp": 1732025976749,
-      "id": 6
-    },
-    {
-      "name": "",
-      "nicelist": "",
-      "location": "",
-      "gifts": "[]",
-      "timestamp": 1732026263448,
-      "id": 7
-    },
-    {
-      "name": "",
-      "nicelist": "",
-      "location": "",
-      "gifts": "[]",
-      "timestamp": 1732026268014,
-      "id": 8
-    },
-    {
-      "name": "",
-      "nicelist": "",
-      "location": "",
-      "gifts": "[]",
-      "timestamp": 1732026369603,
-      "id": 9
-    },
-    {
-      "name": "",
-      "nicelist": "",
-      "location": "",
-      "gifts": "[]",
-      "timestamp": 1732026373717,
-      "id": 10
-    },
-    {
-      "name": "",
-      "nicelist": "",
-      "location": "",
-      "gifts": "[]",
-      "timestamp": 1732026376853,
-      "id": 11
-    },
-    {
-      "name": "",
-      "nicelist": "",
-      "location": "",
-      "gifts": "[]",
-      "timestamp": 1732026377891,
-      "id": 12
-    },
-    {
-      "name": "",
-      "nicelist": "",
-      "location": "",
-      "gifts": "[]",
-      "timestamp": 1732026378995,
-      "id": 13
-    },
-    {
-      "name": "",
-      "nicelist": "",
-      "location": "",
-      "gifts": "[]",
-      "timestamp": 1732026381154,
-      "id": 14
-    },
-    {
-      "name": "",
-      "nicelist": "",
-      "location": "",
-      "gifts": "[]",
-      "timestamp": 1732026382251,
-      "id": 15
-    },
-    {
-      "name": "",
-      "nicelist": "",
-      "location": "",
-      "gifts": "[]",
-      "timestamp": 1732026484670,
-      "id": 16
-    },
-    {
-      "name": "",
-      "nicelist": "",
-      "location": "",
-      "gifts": "[]",
-      "timestamp": 1732026497661,
-      "id": 17
+      "timestamp": 1732040884542,
+      "id": 2
     }
   ]
 }

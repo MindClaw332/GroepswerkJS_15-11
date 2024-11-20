@@ -53,14 +53,16 @@ function DrawList() {
 //load from db
 function loadSavedPosts() {
 try {
+    console.log("loading saved posts")
     const savedposts = JSON.parse(localStorage.getItem('addchild') || '[]');
+    console.log(savedposts);
     savedoutput.innerHTML = '';
 
         if (savedposts.length === 0) {
             const noPostsMessage = document.createElement('div');
             noPostsMessage.className = 'no-posts-message';
             noPostsMessage.textContent = 'No posts found.';
-            childlist.appendChild(noPostsMessage);
+            savedoutput.appendChild(noPostsMessage);
             return;
         }
         // sort by timestamp
@@ -81,11 +83,14 @@ try {
 }
 
 //save to db
-function savetolocal(kidid, gift, timestamp, location) {
+function savetolocal(kidid, kidname, nicelist, gifts,  timestamp, location) {
     try {
+        console.log("saving to local")
         const post = {
             kidid: kidid,
-            gift: gift,
+            kidname: kidname,
+            nicelist: nicelist,
+            gifts: gifts,
             location: location,
             timestamp: timestamp
         };
@@ -93,8 +98,11 @@ function savetolocal(kidid, gift, timestamp, location) {
         const savedposts = JSON.parse(localStorage.getItem('addchild') || '[]');
 
         if (!savedposts.some(p => p.kidid === kid.id)) {
+            console.log('pushing post', savedposts)
             savedposts.push(post);
-            childlist.setItem('savedposts', JSON.stringify(savedposts));
+            console.log('pushed post', savedposts)
+            localStorage.setItem('savedposts', JSON.stringify(savedposts));
+            loadSavedPosts();
         } else {
             alert('You have already saved this post.');
         }
@@ -107,7 +115,7 @@ function savetolocal(kidid, gift, timestamp, location) {
 function removepost(kidid) {
     try {
         const savedposts = JSON.parse(localStorage.getItem('addchild') || '[]');
-        const postIdString = string(kidid);
+        const postIdString = String(kidid);
         const updatedPosts = savedposts.filter(post => post.kidid !== postIdString);
         childlist.setItem('savedposts', JSON.stringify(updatedPosts));
         loadSavedPosts();
@@ -121,29 +129,34 @@ function fetchdata() {
         .then(res => res.json())
         .then(data => {
             if (data.length === 0) {
-                const noPostsMessage = document.createElement('div');
-                noPostsMessage.className = 'no-posts-message';
-                noPostsMessage.textContent = 'No posts found. add a child';
-                output.appendChild(noPostsMessage);
+                // const noPostsMessage = document.createElement('div');
+                // noPostsMessage.className = 'no-posts-message';
+                // noPostsMessage.textContent = 'No posts found. add a child';
+                // output.appendChild(noPostsMessage);
                 return;
             }
             // sort by timestamp
             const sortedPosts = data.sort((a, b) => b.timestamp - a.timestamp);
             sortedPosts.forEach(post => {
                 childlist.innerHTML += `
-            <div class="post-item" id="${post.id}">
-            <span class= "post-content">${post.name} (${post.nicelist}) (${post.location})(${post.timestamp})</span>
-            <div class="edit" style="display: none;">
-                <input type="text" class="edit-input" value="${post.name}">
-                <input type="text" class="edit-input" value="${post.nicelist}">
-                <input type="text" class="edit-input" value="${post.location}">
-                <button class="button" onclick="savePost('${post.id}')">S</button>
-                <button class="button" onclick="cancelEdit('${post.id}')">X</button>
-            </div>
-            <div class="button-group">
-                <button onclick="editPost('${post.id}')">E</button>
-                <button onclick="savetodb('${post.id}','${post.name}', '${post.gift}', '${post.timestamp}')">S</button>
-                <button onclick="removepost('${post.id}')">X</button>
+            <div class="post-item" id="post-${post.id}">
+                <div class="grid post-content">
+                <h3>${post.name}, on naughtylist: ${post.nicelist} gifts: ${post.gifts}</h3>
+                    <button type="button" onclick="editPost('${post.id}')">edit</button>
+                </div>            
+                <div class="edit-form" style="display: none;">
+                <div class="grid" id="edit-text">
+                    <input type="text" placeholder="name" id="nameedit">
+                    <input type="text" placeholder="location" id="locationedit">
+                </div>
+                <div class="grid">
+                    <button type="button" onclick="savetolocal('${post.id}', '${post.name}', '${post.nicelist}', '${post.gifts}',  '${post.timestamp}', '${post.location}')">save</button>
+                    <button type="button" onclick="cancelEdit(${post.id})">cancel</button>
+                    <button type="button" class="outline" id="deletebutton">delete</button>
+                    <button type="button">add book</button>
+                    <button type="button">add toy</button>
+                    <button type="button">add game</button>
+                </div>
             </div>
             </div>
             `;
@@ -177,7 +190,7 @@ console.log('clicked');
             document.getElementById('name').value = '';
             document.getElementById('nicelist').value = '';
             document.getElementById('location').value = '';
-            DrawList();
+            // DrawList();
         })
         .catch(error => console.log(error, ' error adding kid'));
         
@@ -186,7 +199,7 @@ console.log('clicked');
 // clear localstorage
 document.getElementById('clearcache').addEventListener('click', () => {
     if (confirm('Are you sure you want to clear the cache?')) {
-        localStorage.remoaveItem('savedposts');
+        localStorage.removeItem('savedposts');
         loadSavedPosts();
     }
 });
@@ -194,20 +207,20 @@ document.getElementById('clearcache').addEventListener('click', () => {
 function editPost(id) {
     const postdiv = document.getElementById(`post-${id}`);
     postdiv.querySelector('.post-content').style.display = 'none';
-    postdiv.querySelector('.edit-form').style.display = 'block';
-    postdiv.querySelector('.button-group').style.display = 'none';
+    postdiv.querySelector('.edit-form').style.display = 'grid';
+    // postdiv.querySelector('.button-group').style.display = 'none';
 }
 
 function cancelEdit(id) {
     const postdiv = document.getElementById(`post-${id}`);
-    postdiv.querySelector('.post-content').style.display = 'block';
+    postdiv.querySelector('.post-content').style.display = 'grid';
     postdiv.querySelector('.edit-form').style.display = 'none';
-    postdiv.querySelector('.button-group').style.display = 'block';
+    // postdiv.querySelector('.button-group').style.display = 'block';
 }
 
 
 
-DrawList();
+// DrawList();
 const click = document.getElementById('lightbulbtoggle');
 click.addEventListener('mousedown', toggleDarkMode);
 
