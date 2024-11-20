@@ -4,15 +4,13 @@
       "id": 1,
       "name": "kiddo",
       "gifts": "[]",
-      "nicelist": true
+      "nicelist": "true"
     },
     {
-      "name": "aze",
-      "nicelist": "true",
-      "location": "genk",
+      "id": 2,
+      "name": "andere kiddo",
       "gifts": "[]",
-      "timestamp": 1732040884542,
-      "id": 2
+      "nicelist": "true"
     }
   ]
 }
