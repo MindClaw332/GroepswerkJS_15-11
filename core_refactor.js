@@ -13,13 +13,13 @@ function DrawList() {
         output.innerHTML += `
             <div class="post-item" id="post-${element.kidid}">
                 <div class="grid post-content">
-                <h3>${element.kidname}, naughtylist: ${element.nicelist}, location: ${element.location}, gifts: ${element.gifts}</h3>
+                <h3>${element.kidname}, nicelist: ${element.nicelist}, location: ${element.location}, gifts: ${element.gifts}</h3>
                     <button type="button" onclick="editPost('${element.kidid}')">edit</button>
                 </div>            
                 <div class="edit-form" style="display: none;">
                 <div class="grid" id="edit-text">
-                    <input type="text" placeholder="name" id="nameedit">
-                    <input type="text" placeholder="location" id="locationedit">
+                    <input type="text" placeholder="name" class="edit-name">
+                    <input type="text" placeholder="location" class="edit-location">
                 </div>
                 <div class="grid">
                     <button type="button" onclick="savePost('${element.kidid}', '${element.kidname}', '${element.nicelist}', '${element.gifts}',  '${element.location}')">save</button>
@@ -114,6 +114,34 @@ function deletePost(id) {
     .then(() => FetchDataAndSave())
     .catch(e => console.error('Error deleting post:', e));
 }
+
+function savePost(id) {
+    // Get the edited values
+    const postDiv = document.getElementById(`post-${id}`);
+    const newName = postDiv.querySelector('.edit-name').value;
+    const newLocation = postDiv.querySelector('.edit-location').value;
+    // Create updated post object
+    const updatedPost = {
+        kidname: newName,
+        location: newLocation
+    };
+
+    // Send PUT request to update the post
+    fetch(`${url}/${id}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedPost)
+    })
+    .then(res => res.json())
+    .then(() => {
+        // Refresh the posts display
+        FetchDataAndSave
+    })
+    .catch(e => console.error('Error updating post:', e));
+}
+
 localStorage.clear();
 addChildButton.addEventListener('click', AddPost)
 FetchDataAndSave();
